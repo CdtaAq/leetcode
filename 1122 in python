@@ -1,0 +1,16 @@
+class Solution:
+    def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+        freq = {}
+        for num in arr1:
+            freq[num] = freq.get(num, 0) + 1
+        
+        res = []
+        for num in arr2:
+            res += [num] * freq[num]
+            del freq[num]
+        
+        remaining_nums = sorted(freq.keys())
+        for num in remaining_nums:
+            res += [num] * freq[num]
+        
+        return res
