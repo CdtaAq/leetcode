@@ -1,0 +1,52 @@
+class Solution extends React.Component {
+  sum = 0;
+
+  dfs(node, pathSum) {
+    // If node is null, return
+    if (!node) {
+      return;
+    }
+    
+    // Update pathSum with current node's value
+    pathSum += node.val;
+    
+    // If leaf node, add pathSum to total sum
+    if (!node.left && !node.right) {
+      this.sum += pathSum;
+      return;
+    }
+    
+    // Recursively traverse left and right subtrees
+    if (node.left) {
+      this.dfs(node.left, pathSum * 10);
+    }
+    if (node.right) {
+      this.dfs(node.right, pathSum * 10);
+    }
+  }
+
+  pathSum(nums) {
+    // Create a map to store nodes
+    const nodeMap = new Map();
+    
+    // Create nodes and add them to the map
+    for (let num of nums) {
+      const depth = Math.floor(num / 100);
+      const pos = Math.floor(num / 10) % 10;
+      const val = num % 10;
+      const node = { val };
+      nodeMap.set(depth * 10 + pos, node);
+    }
+    
+    // Connect nodes to form a tree
+    for (let [key, node] of nodeMap) {
+      const depth = Math.floor(key / 10);
+      const pos = key % 10;
+      const leftKey = (depth + 1) * 10 + pos * 2 - 1;
+      const rightKey = (depth + 1) * 10 + pos * 2;
+      node.left = nodeMap.get(leftKey);
+      node.right = nodeMap.get(rightKey);
+    }
+    
+    // Traverse the tree recursively and calculate sum
+    this.dfs(nodeMap.get(11), 
