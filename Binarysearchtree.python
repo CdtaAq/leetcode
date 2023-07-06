@@ -1,0 +1,33 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def binary_tree_search(root, target):
+    if root is None or root.data == target:
+        return root
+
+    if target < root.data:
+        return binary_tree_search(root.left, target)
+    else:
+        return binary_tree_search(root.right, target)
+
+# Example usage
+# Create a binary search tree
+root = Node(5)
+root.left = Node(3)
+root.right = Node(7)
+root.left.left = Node(2)
+root.left.right = Node(4)
+root.right.left = Node(6)
+root.right.right = Node(8)
+
+# Perform a search
+target = 4
+result = binary_tree_search(root, target)
+
+if result:
+    print(f"Found {target} in the binary search tree.")
+else:
+    print(f"{target} not found in the binary search tree.")
